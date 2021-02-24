@@ -1,24 +1,38 @@
-var key = config.API_KEY;
-var city = "London";
-var url = "api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + key;
+const mqtt = require('mqtt')
 
-var app = {
-    load: function() {
-        this.getData();
-    },
-    getData: function() {
-       $.ajax({
-           url: url,
-           type: 'GET',
-           dataType: 'jsonp',
-           error: function(err) {
-               console.log("something is wrong");
-               console.log(err);
-           },
-           success: function(data) {
-                console.log(data);
-           }
-       });
-    }
+//Setup MQTT settings
+//check with broker for specidics
+const options = {
+  port: 1883,
+clientId: 'client-Ally-Send',
+  //your account details (HiveMQ)
+  username: config.username,
+  password: config.password
 };
-app.load();
+const client = mqtt.connect('mqtt://broker.mqttdashboard.com:8000', options);
+
+
+
+function sendMessage(msg) {
+    let payload = msg;
+  client.publish('subscriptionurl', payload, function() {
+    console.log("New Message: " + payload);
+  });
+}
+/*
+const name = "Ally";
+const greetings = ["Hello, ", "Good Morning, ", "Good Afternoon, ", "Good Evening, ", "It's Late,  "];
+var myCanvas = createCanvas(windowWidth, windowHeight);
+*/
+
+function setup() {
+    const name = "Ally";
+    const greetings = ["Hello, ", "Good Morning, ", "Good Afternoon, ", "Good Evening, ", "It's Late,  "];
+    var myCanvas = createCanvas(windowWidth, windowHeight);
+    myCanvas.parent('holder'); //puts canvas inside of holder div
+
+}
+
+function draw() {
+    
+}
