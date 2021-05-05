@@ -88,9 +88,13 @@ void loop(){
     //message received
     Serial.print("Message Received with topic:  ");
     Serial.println(mqttClient.messageTopic()); 
-    messageReceived();
+    //messageReceived();
     while(mqttClient.available()) {
+          char message = (char)mqttClient.read();
           Serial.print((char)mqttClient.read());
+          if (message>=6) {
+                messageReceived();
+            }
       }
       Serial.println();
    }
