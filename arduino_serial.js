@@ -9,7 +9,7 @@ const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 const mqtt = require('mqtt')
 
-const port = new SerialPort('/dev/cu.usbmodem1422201');
+const port = new SerialPort('/dev/cu.usbmodem1422301');
 const parser = port.pipe(new Readline({ delimiter: '\n' }));
 
 //Setup MQTT settings

@@ -14,7 +14,7 @@
 #define BROKER "broker.mqttdashboard.com"
 #define MQTT_USER "ally-arduino"
 #define MQTT_PASS "mkr5422"
-//const char[] broker = "broker.mqttdashboard.com";
+//const char[] broker = "broker.m qttdashboard.com";
 int port = 1883;
 
 String topic = "/topic1";
@@ -52,6 +52,7 @@ void setup(){
   } //end while
 
   Serial.println("You're connected to the network: ");
+  connectSuccess();
   Serial.println("---------------------------------");
   printData();
   Serial.println("---------------------------------");
@@ -73,7 +74,6 @@ void setup(){
   
 }
 
-
 void loop(){
   //wifi setup
   //checks network connection every 10 seconds
@@ -83,18 +83,32 @@ void loop(){
   printData(); //will print data regarding WiFi connection (if established)
   Serial.println("---------------------------------");
   */
+  //hardPress();
   int messageSize = mqttClient.parseMessage();
   if(messageSize) {
-    //message received
+//    message received
     Serial.print("Message Received with topic:  ");
-    Serial.println(mqttClient.messageTopic()); 
+    Serial.println(mqttClient.messageTopic());
+    messageReceived(); 
     //messageReceived();
     while(mqttClient.available()) {
-          char message = (char)mqttClient.read();
-          Serial.print((char)mqttClient.read());
-          if (message>=6) {
-                messageReceived();
-            }
+          //byte message = mqttClient.read();
+          byte payload = mqttClient.read();
+          //String msgString;
+          //Serial.print(msgString);
+          //messageReceived();
+          
+          /*
+          if(== "hard") {
+              hardPress(); 
+           }
+          if(message == "medium") {
+              mediumPress();  
+          }
+          if(message == "soft") {
+              softPress();
+          } */
+         
       }
       Serial.println();
    }
@@ -103,7 +117,8 @@ void loop(){
 
 void messageReceived() {
   //blinks light when message is received
-  strip.setBrightness(17);
+  strip.setBrightness(175);
+  /*
   for(int i = 0; i < 12; i++){
     strip.setPixelColor(i, 0, 0, 255, 127);
   }
@@ -111,7 +126,68 @@ void messageReceived() {
   delay(2000);
   strip.setBrightness(0);
   strip.show();
+  delay(500); */
+
+
+
+      for(int i = 0; i < 12; i++) {
+            strip.setPixelColor(i, 255, 0, 255);
+            strip.show(); 
+            delay(100);
+       }    
+  
   delay(500);
+  strip.setBrightness(0);
+  strip.show();
+}
+
+void hardPress() {
+   strip.setBrightness(200);
+   for(int i = 0; i < 12; i++){
+    strip.setPixelColor(i, 255, 0, 0);
+    strip.show();
+  }
+  delay(5000);
+  strip.setBrightness(0);
+  strip.show();
+}
+
+void mediumPress() {
+   strip.setBrightness(200);
+   for(int i = 0; i < 12; i++){
+    strip.setPixelColor(i, 0, 255, 0);
+    strip.show();
+  }
+  delay(5000);
+  strip.setBrightness(0);
+  strip.show();
+}
+
+void softPress() {
+   strip.setBrightness(200);
+   for(int i = 0; i < 12; i++){
+    strip.setPixelColor(i, 0, 0, 255);
+    strip.show();
+  }
+  delay(5000);
+  strip.setBrightness(0);
+  strip.show();
+}
+
+void connectSuccess() {
+    //strip.setBrightness(175);
+     for(int i = 0; i < 3; i++) {
+          for(int j = 0; j < 12; j++) {
+                strip.setBrightness(175);
+                strip.setPixelColor(i, 255, 255, 255);
+                strip.show();
+            }
+            delay(500);
+            strip.setBrightness(0);
+            strip.show();
+            delay(500);
+           // strip.setBrightness(175);
+      } 
 }
 
 //prints data about WiFi connection
